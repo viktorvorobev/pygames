@@ -1,0 +1,71 @@
+name: CI checks
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  lint:
+    name: Run pylint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install poetry
+        run: python -m pip install poetry
+      - name: Install dependencies
+        run: make init-env
+      - name: Lint with pylint
+        run: make lint
+  style-check:
+    name: Run flake8
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install poetry
+        run: python -m pip install poetry
+      - name: Install dependencies
+        run: make init-env
+      - name: Lint with flake8
+        run: make style-check
+  type-check:
+    name: Run mypy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install poetry
+        run: python -m pip install poetry
+      - name: Install dependencies
+        run: make init-env
+      - name: Type check with mypy
+        run: make type-check
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install poetry
+        run: python -m pip install poetry
+      - name: Install dependencies
+        run: make init-env
+      - name: Test
+        run: |
+          make test
+          make coverage
