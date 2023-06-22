@@ -7,65 +7,21 @@ on:
     branches: [ main ]
 
 jobs:
-  lint:
-    name: Run pylint
+  ci_checks:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        command: [lint, style-check, type-check, test]
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      - name: Install poetry
-        run: python -m pip install poetry
+      - name: Upgrade PIP
+        run: python -m pip install --upgrade pip
       - name: Install dependencies
-        run: make init-env
+        run: pip install -e .[dev]
       - name: Lint with pylint
-        run: make lint
-  style-check:
-    name: Run flake8
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-      - name: Install poetry
-        run: python -m pip install poetry
-      - name: Install dependencies
-        run: make init-env
-      - name: Lint with flake8
-        run: make style-check
-  type-check:
-    name: Run mypy
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-      - name: Install poetry
-        run: python -m pip install poetry
-      - name: Install dependencies
-        run: make init-env
-      - name: Type check with mypy
-        run: make type-check
-  test:
-    name: Run tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-      - name: Install poetry
-        run: python -m pip install poetry
-      - name: Install dependencies
-        run: make init-env
-      - name: Test
-        run: |
-          make test
-          make coverage
+        run: make ${{ matrix.command }}
