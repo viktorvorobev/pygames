@@ -26,6 +26,42 @@ def test_game_populated_on_start():
         assert game.population > 0
 
 
+@pytest.mark.parametrize(
+    'initial_state',
+    [
+        [
+            [0, 0, 0, ],
+            [0, 1, 0, ],
+            [0, 0, 0, ],
+        ],
+        [
+            [1, 0, 0, ],
+            [0, 1, 0, ],
+            [0, 0, 0, ],
+        ],
+        [
+            [1, 0, 0, ],
+            [0, 1, 0, ],
+            [0, 0, 1, ],
+        ],
+        [
+            [1, 1, 0, ],
+            [0, 1, 0, ],
+            [0, 1, 0, ],
+        ],
+        [
+            [1, 1, 1, ],
+            [1, 1, 1, ],
+            [1, 1, 1, ],
+        ],
+    ]
+)
+def test_population_count(initial_state: list[list[int]]):
+    game = gof.GameOfLife(height=3, width=3, boundaries=False)
+    game.state = initial_state
+    assert game.population == sum(sum(i for i in row) for row in initial_state)
+
+
 def test_neighbours_generator():
     game = gof.GameOfLife(height=3, width=3)
     neighbours = []
