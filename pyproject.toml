@@ -11,6 +11,9 @@ license = { file = "LICENSE" }
 dependencies = [
     "blessed==1.20.0",
 ]
+requires-python = ">=3.11"
+[project.scripts]
+game-of-life = "pygames.game_of_life.ui.console:main"
 
 [project.optional-dependencies]
 dev = [
