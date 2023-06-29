@@ -15,7 +15,7 @@ class GameOfLife:
             raise ValueError(f'Height of size {height} is too small. Minimal value is {MIN_SIZE}')
         if width < MIN_SIZE:
             raise ValueError(f'Width of size {width} is too small. Minimal value is {MIN_SIZE}')
-        self._boundaries = boundaries
+        self.boundaries = boundaries
         self._height = height
         self._width = width
         self.state: list[list[int]] = [[]]
@@ -37,7 +37,7 @@ class GameOfLife:
             for col in range(self._width):
                 total = sum(
                     self.state[drow][dcol]
-                    for drow, dcol in self._neighbours(row, col, self._boundaries)
+                    for drow, dcol in self._neighbours(row, col, self.boundaries)
                     if 0 <= drow <= self._height - 1
                     and 0 <= dcol <= self._width - 1
                 )
