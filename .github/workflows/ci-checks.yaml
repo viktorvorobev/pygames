@@ -23,5 +23,5 @@ jobs:
         run: python -m pip install --upgrade pip
       - name: Install dependencies
         run: pip install -e .[dev]
-      - name: Lint with pylint
+      - name: Run ${{ matrix.command }}
         run: make ${{ matrix.command }}
