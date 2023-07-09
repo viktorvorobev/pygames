@@ -29,7 +29,7 @@ To run simply call `game-of-life` after installation:
 
 <summary>Demo</summary>
 
-![game-of-life.gif](https://github.com/viktorvorobev/pygames/blob/main/static/game_of_life/game_of_life.gif)
+![game-of-life.gif](https://github.com/viktorvorobev/pygames/blob/main/static/game_of_life.gif)
 
 </details>
 
