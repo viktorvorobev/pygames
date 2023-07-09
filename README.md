@@ -33,3 +33,14 @@ To run simply call `game-of-life` after installation:
 
 </details>
 
+### Snake
+
+To run simply call `snake` after installation:
+
+<details>
+
+<summary>Demo</summary>
+
+![game-of-life.gif](https://github.com/viktorvorobev/pygames/blob/main/static/snake.gif)
+
+</details>
