@@ -1,6 +1,10 @@
+from functools import partial
+
 import blessed
 
 from pygames.game_of_life import game_of_life as gof
+
+display = partial(print, end='', flush=True)
 
 BOUNDARIES_WIDTH = 1
 EXIT_KEYS = ('q', 'Q')
@@ -8,7 +12,7 @@ BOUNDARIES_KEYS = ('b', 'B')
 RESTART_KEYS = ('r', 'R')
 
 
-class TerminalController:   # pylint: disable = too-few-public-methods
+class TerminalController:  # pylint: disable = too-few-public-methods
     DEFAULT_TIMEOUT = 0.02  # seconds
     LIVE_SYMBOL = '*'
     DEAD_SYMBOL = ' '
@@ -20,7 +24,7 @@ class TerminalController:   # pylint: disable = too-few-public-methods
         self.game = game
 
         with self.term.cbreak(), self.term.hidden_cursor():
-            print(self.term.home + self.term.clear, end='')
+            display(self.term.home + self.term.clear)
         self._old_population = 0
 
     def run(self):  # pragma: nocover
@@ -48,21 +52,21 @@ class TerminalController:   # pylint: disable = too-few-public-methods
             population = str(population).rjust(old_population_len)
         self._old_population = population
         txt_erase = self.term.move_xy(0, 0)
-        print(txt_erase + f'Population: {population}', end='', flush=True)
+        display(txt_erase + f'Population: {population}')
 
     def _show_cells(self):
         for row_num, row in enumerate(self.game.state):
             for col_num, cell in enumerate(row):
                 txt_erase = self.term.move_xy(col_num, row_num + BOUNDARIES_WIDTH)
                 symbol = self.LIVE_SYMBOL if cell == gof.LIVE else self.DEAD_SYMBOL
-                print(txt_erase + symbol, end='', flush=True)
+                display(txt_erase + symbol)
 
     def _show_instructions(self):
         txt_erase = self.term.move_xy(0, self.term.height - 1)
         exit_text = 'Exit: "Q"'
         boundaries = f'Toggle boundaries: "B" ({"on" if self.game.boundaries else "off"})'
         restart = 'Restart: "R"'
-        print(txt_erase + ', '.join((exit_text, restart, boundaries)), end='')
+        display(txt_erase + ', '.join((exit_text, restart, boundaries)))
 
 
 def main():  # pragma: nocover
