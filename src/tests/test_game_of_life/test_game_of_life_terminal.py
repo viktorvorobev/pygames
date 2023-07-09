@@ -32,13 +32,14 @@ def test_rendered(controller: console.TerminalController, capsys):
 
     population_string = f'Population: {controller.game.population}'
     assert output.startswith(population_string), repr(output)
-    output.replace(population_string, '')
+    output = output.replace(population_string, '')
 
     instructions_string = 'Exit: "Q", Restart: "R", Toggle boundaries: "B" (off)'
     assert output.endswith(instructions_string), repr(output)
-    output.replace(instructions_string, '')
-    # extra 3 symbols in each line for move
-    assert len(output) == controller.game._width * controller.game._height + controller.game._height * 3 - 1
+    output = output.replace(instructions_string, '')
+
+    assert len(output) == controller.game._width * controller.game._height
+    assert output.count(controller.LIVE_SYMBOL) == controller.game.population
 
 
 def test_show_population(controller: console.TerminalController, capsys):
