@@ -10,6 +10,8 @@ RESTART_KEYS = ('r', 'R')
 
 class TerminalController:   # pylint: disable = too-few-public-methods
     DEFAULT_TIMEOUT = 0.02  # seconds
+    LIVE_SYMBOL = '*'
+    DEAD_SYMBOL = ' '
 
     def __init__(self, terminal: blessed.Terminal, game: gof.GameOfLife):
         self.term = terminal
@@ -52,7 +54,7 @@ class TerminalController:   # pylint: disable = too-few-public-methods
         for row_num, row in enumerate(self.game.state):
             for col_num, cell in enumerate(row):
                 txt_erase = self.term.move_xy(col_num, row_num + BOUNDARIES_WIDTH)
-                symbol = '*' if cell == gof.LIVE else ' '
+                symbol = self.LIVE_SYMBOL if cell == gof.LIVE else self.DEAD_SYMBOL
                 print(txt_erase + symbol, end='', flush=True)
 
     def _show_instructions(self):
